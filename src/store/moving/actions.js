@@ -40,8 +40,10 @@ export const actions = {
    * @param state
    */
   getUpcoming ({commit, state}) {
+    // api with city and start, star is the page
     utils.get('/movie/coming_soon', {city: state.city, start: state.upcomBody.start + 1}).then(res => {
       if (state.upcomBody.subjects && state.upcomBody.subjects.length) {
+        // now concat state.upcoming_body.subject.concat
         res.subjects = state.upcomBody.subjects.concat(res.subjects)
         commit('PAGE_LOAD', {pageload: false})
       }
