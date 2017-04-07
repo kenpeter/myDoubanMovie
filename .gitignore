@@ -14,8 +14,6 @@ yarn-error.log
 .pydevproject
 target
 .DS_Store
-dist
-/dist/
 logs
 *.log
 bin
