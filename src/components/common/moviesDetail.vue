@@ -1,10 +1,101 @@
+<!-- template -->
 <template>
+  <!-- loading detail is compute, indicate loading -->
   <div class="container-moving" v-loading="loadingDetail">
-  
+    <!-- content -->
+    <div class="content">
+      <h1>
+        <!-- title -->
+        <span class="title">{{movieDetail.title}} {{movieDetail.original_title}}</span>
+        <!-- year -->
+        <span class="year">({{movieDetail.year}})</span>
+      </h1>
+      <div class="detail clearfix">
+        <div class="left-side">
+          <div class="actor-list">
+            <div class="subject">
+              <div class="mainpic">
+                <!-- has diff img size -->
+                <a href="https://movie.douban.com/subject/25900945/photos?type=R"><img class="movieImg" :src="movieDetail.images.medium" alt="" title="More movie pic"></a>
+              </div>
+              <div class="info">
+                <!-- directors -->
+                <span class="p1">Director: </span><span v-for="item in movieDetail.directors" class="attrs">{{item.name}}</span><br>
+                <!-- cast -->
+                <span class="p1">Cast: </span><span v-for="item in movieDetail.casts" class="attrs">{{item.name}}/</span><br>
+                <!-- genre -->
+                <span class="p1">Type: </span><span v-for="item in movieDetail.genres" class="attrs">{{item}}/</span><br>
+                <span class="p1">Country: </span><span v-for="(item,index) in movieDetail.countries" class="attrs">{{item}}</span><br>
+                <span class="p1">IMDB: </span><span class="attrs">....</span><br>
+              </div>
+            </div>
+            <div class="people-sroce">
+              <div>
+                <p>Score</p>
+                <span class="score" v-if="movieDetail.rating.average * 2">{{movieDetail.rating.average * 2}}</span>
+                <el-rate
+                  v-model="movieDetail.rating.average"
+                  disabled>
+                </el-rate>
+                <p class="no-publish" v-if="!movieDetail.rating.average * 2">Not in theater yet</p>
+                <p class="comment-num" v-if="movieDetail.rating.average * 2">{{movieDetail.ratings_count}} people rated</p>
+              </div>
+            </div>
+          </div>
+          <div class="insterest-people">
+            <div class="top">
+            <a href=""><button>Watch</button></a>
+            <a href=""><button>Watched</button></a>
+            <span class="score-to">Rate:
+                <el-rate show-text></el-rate>
+                </span>
+            </div>
+          </div>
+          <div class="gtleft">
+            <ul class="ul">
+              <li><img src="https://img3.doubanio.com/f/shire/cc03d0fcf32b7ce3af7b160a0b85e5e66b47cc42/pics/short-comment.gif" alt=""><a href="">Write comment</a></li>
+              <li><img src="https://img3.doubanio.com/f/shire/5bbf02b7b5ec12b23e214a580b6f9e481108488c/pics/add-review.gif" alt=""><a href="">Write review</a></li>
+              <li><img src="https://img3.doubanio.com/f/shire/61cc48ba7c40e0272d46bb93fe0dc514f3b71ec5/pics/add-doulist.gif" alt=""><a href="">Ask question</a></li>
+              <li><img src="https://img3.doubanio.com/f/shire/61cc48ba7c40e0272d46bb93fe0dc514f3b71ec5/pics/add-doulist.gif" alt=""><a href="">Add to list</a></li>
+              <li><img src="" alt=""><a href="">Share</a></li>
+            </ul>
+          </div>
+          <div class="summary">
+            <p class="summary-title">{{movieDetail.title}}的剧情简介  ·  ·  ·  ·  ·  ·</p>
+            <p class="intro">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{movieDetail.summary}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
+  export default{
+    name: 'moviesDetail',
+    data () {
+      return {
 
+      }
+    },
+    mounted () {
+      let id = this.$route.query.id
+      this.$store.commit('MOVING_ID', {id})
+      this.$store.dispatch('getMovieDetail')
+    },
+    components: {
+      'movieComment': (resolve) => {
+        require(['./movieComment.vue'], resolve)
+      }
+    },
+    computed: {
+      movieDetail () {
+        return this.$store.getters.movieDetail
+      },
+      loadingDetail () {
+        return this.$store.getters.loadingDetail
+      }
+    }
+  }
 </script>
 <style rel="stylesheet/less" lang="less">
   @import "../../../style/base";

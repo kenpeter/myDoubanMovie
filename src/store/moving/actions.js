@@ -14,6 +14,8 @@ export const actions = {
       // result, then commit movie list
       // loading false
       // res.subjects...... is what we need
+      // test
+      // console.log('db, getMoving: ', res)
       commit('MOVING_LIST', {list: res})
       commit('MOVING_LOADING', {loading: false})
     })
