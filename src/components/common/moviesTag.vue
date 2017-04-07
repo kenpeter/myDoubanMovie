@@ -9,7 +9,7 @@
       <div class="movieTag" v-for="(subject,index) in data.subjects" v-if="index < maxNum">
         <ul>
           <li class="film-pic">
-            <!-- able to go to detail -->
+            <!-- able to go to detail and we pass the subject id -->
             <a @click="showDetail(subject.id)">
               <img class="movieImg"  :src="subject.images.large" alt="">
             </a>
@@ -32,7 +32,8 @@
         </ul>
       </div>
       <!-- click, then max num === subjects.len -->
-      <div class="load-more" @click="maxNum = data.subjects.length" v-if="maxNum < data.subjects.length">加载更多</div>
+      <!-- so it is already loaded -->
+      <div class="load-more" @click="maxNum = data.subjects.length" v-if="maxNum < data.subjects.length">Load more</div>
     </div>
   </div>
 </template>
@@ -59,7 +60,8 @@ export default{
   },
   methods: {
     showDetail (id) {
-      // loading, then go to another route.
+      // loading == true
+      // then go to another route.
       this.$store.commit('DETAIL_LOADING', {loading: true})
       this.$router.push({path: '/moviesDetail', query: {id: id}})
     }

@@ -77,6 +77,7 @@ export const getters = {
     console.log('getters, id: ', state.id)
     return state.id
   },
+  // one we have detail, we use getter in component
   movieDetail: state => {
     state.movieDetail.rating.average = state.movieDetail.rating.average / 2
     // test

@@ -24,9 +24,13 @@ export const actions = {
    *获取电影详情
    * @param commit
    */
+  // because state.id has been changed, so ...
   getMovieDetail ({commit, state}) {
+    // /api/movie/subject/xxxxxx
     utils.get(`/movie/subject/${state.id}`, {}).then(res => {
+      // detail loading false
       commit('DETAIL_LOADING', {loading: false})
+      // we have result
       commit('MOVING_DETAIL', {movieDetail: res})
     })
   },

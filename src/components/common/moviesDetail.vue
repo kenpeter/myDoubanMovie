@@ -31,12 +31,15 @@
             </div>
             <div class="people-sroce">
               <div>
+                <!-- score num -->
                 <p>Score</p>
                 <span class="score" v-if="movieDetail.rating.average * 2">{{movieDetail.rating.average * 2}}</span>
+                <!-- rating average -->
                 <el-rate
                   v-model="movieDetail.rating.average"
                   disabled>
                 </el-rate>
+                <!-- show rating or not -->
                 <p class="no-publish" v-if="!movieDetail.rating.average * 2">Not in theater yet</p>
                 <p class="comment-num" v-if="movieDetail.rating.average * 2">{{movieDetail.ratings_count}} people rated</p>
               </div>
@@ -61,8 +64,10 @@
             </ul>
           </div>
           <div class="summary">
-            <p class="summary-title">{{movieDetail.title}}的剧情简介  ·  ·  ·  ·  ·  ·</p>
-            <p class="intro">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{movieDetail.summary}}</p>
+            <!-- title -->
+            <p class="summary-title">{{movieDetail.title}} summary</p>
+            <!-- summary -->
+            <p class="intro">{{movieDetail.summary}}</p>
           </div>
         </div>
       </div>
@@ -78,19 +83,25 @@
       }
     },
     mounted () {
+      // query.id
       let id = this.$route.query.id
+      // store commit, moving id, commit means setter
+      // state.id = id
       this.$store.commit('MOVING_ID', {id})
       this.$store.dispatch('getMovieDetail')
     },
     components: {
+      // we have a component, which is anoy func with require
       'movieComment': (resolve) => {
         require(['./movieComment.vue'], resolve)
       }
     },
     computed: {
+      // movie detail in compute
       movieDetail () {
         return this.$store.getters.movieDetail
       },
+      // movie is loading
       loadingDetail () {
         return this.$store.getters.loadingDetail
       }
